@@ -15,6 +15,13 @@ public final class EasyPay {
     private OnPayResultListener mOnPayResultListener;
     private Activity mContext;
     private String mWechatAppID;
+    private PayWay mPayWay;
+    private int mGoodsPrice;
+    private String mGoodsTitle;
+    private String mGoodsIntroduction;
+    private HttpType mHttpType;
+    private HttpClientType mHttpClientType;
+    private String mApiUrl;
 
     private EasyPay(Activity activity) {
         mContext = activity;
@@ -24,12 +31,56 @@ public final class EasyPay {
         mWechatAppID = id;
     }
 
+    public void setPayWay(PayWay mPayWay) {
+        this.mPayWay = mPayWay;
+    }
+
+    public void setGoodsPrice(int mGoodsPrice) {
+        this.mGoodsPrice = mGoodsPrice;
+    }
+
+    public void setGoodsTitle(String mGoodsTitle) {
+        this.mGoodsTitle = mGoodsTitle;
+    }
+
+    public void setGoodsIntroduction(String mGoodsIntroduction) {
+        this.mGoodsIntroduction = mGoodsIntroduction;
+    }
+
+    public void setHttpType(HttpType mHttpType) {
+        this.mHttpType = mHttpType;
+    }
+
+    public void setHttpClientType(HttpClientType mHttpClientType) {
+        this.mHttpClientType = mHttpClientType;
+    }
+
+    public void setApiUrl(String mApiUrl) {
+        this.mApiUrl = mApiUrl;
+    }
+
     public void toPay(@NonNull OnPayResultListener onPayResultListener) {
         mOnPayResultListener = onPayResultListener;
+
+        if (mPayWay == null) {
+            throw new NullPointerException("请设置支付方式");
+        }
+        switch (mPayWay) {
+            case WechatPay:
+
+                break;
+
+            case ALiPay:
+
+                break;
+        }
     }
 
     public EasyPay requestPayInfo(OnPayInfoRequestListener onPayInfoRequestListener) {
         mOnPayInfoRequestListener = onPayInfoRequestListener;
+        if (mHttpClientType == null) {
+            mHttpClientType = HttpClientType.HttpUrlConnetion;
+        }
         return this;
     }
 
@@ -41,6 +92,7 @@ public final class EasyPay {
         String goodsTitle;
         String goodsIntroduction;
         HttpType httpType;
+        HttpClientType httpClientType;
         String apiUrl;
 
         public Builder(Activity aty) {
@@ -77,7 +129,8 @@ public final class EasyPay {
             return this;
         }
 
-        public Builder requestType() {
+        public Builder httpClientType(HttpClientType clientType) {
+            httpClientType = clientType;
             return this;
         }
 
@@ -88,10 +141,16 @@ public final class EasyPay {
 
         public EasyPay build() {
             EasyPay payClient = new EasyPay(mContext);
+
             payClient.setWechatAppID(wechatAppId);
+            payClient.setPayWay(payWay);
+            payClient.setGoodsPrice(goodsPrice);
+            payClient.setGoodsTitle(goodsTitle);
+            payClient.setGoodsIntroduction(goodsIntroduction);
+            payClient.setHttpType(httpType);
+            payClient.setHttpClientType(httpClientType);
+            payClient.setApiUrl(apiUrl);
 
-
-            // TODO
             return payClient;
         }
 
