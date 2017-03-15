@@ -31,31 +31,31 @@ public final class EasyPay {
         mWechatAppID = id;
     }
 
-    public void setPayWay(PayWay mPayWay) {
+    private void setPayWay(PayWay mPayWay) {
         this.mPayWay = mPayWay;
     }
 
-    public void setGoodsPrice(int mGoodsPrice) {
+    private void setGoodsPrice(int mGoodsPrice) {
         this.mGoodsPrice = mGoodsPrice;
     }
 
-    public void setGoodsTitle(String mGoodsTitle) {
+    private void setGoodsTitle(String mGoodsTitle) {
         this.mGoodsTitle = mGoodsTitle;
     }
 
-    public void setGoodsIntroduction(String mGoodsIntroduction) {
+    private void setGoodsIntroduction(String mGoodsIntroduction) {
         this.mGoodsIntroduction = mGoodsIntroduction;
     }
 
-    public void setHttpType(HttpType mHttpType) {
+    private void setHttpType(HttpType mHttpType) {
         this.mHttpType = mHttpType;
     }
 
-    public void setHttpClientType(HttpClientType mHttpClientType) {
+    private void setHttpClientType(HttpClientType mHttpClientType) {
         this.mHttpClientType = mHttpClientType;
     }
 
-    public void setApiUrl(String mApiUrl) {
+    private void setApiUrl(String mApiUrl) {
         this.mApiUrl = mApiUrl;
     }
 
