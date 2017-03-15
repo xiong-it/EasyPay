@@ -13,4 +13,15 @@ package io.github.xiong_it.easypay.paystrategy;
  */
 
 public class PayContext {
+    private PayStrategyInterf mStrategy;
+
+    public PayContext(PayStrategyInterf strategy) {
+        mStrategy = strategy;
+    }
+
+    public void pay() {
+        if (mStrategy != null) {
+            mStrategy.toPay();
+        }
+    }
 }
