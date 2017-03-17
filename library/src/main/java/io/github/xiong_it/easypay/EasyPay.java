@@ -3,8 +3,12 @@ package io.github.xiong_it.easypay;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
+import io.github.xiong_it.easypay.Network.NetworkClientFactory;
+import io.github.xiong_it.easypay.Network.NetworkClientInterf;
 import io.github.xiong_it.easypay.callback.OnPayInfoRequestListener;
 import io.github.xiong_it.easypay.callback.OnPayResultListener;
+import io.github.xiong_it.easypay.enums.HttpType;
+import io.github.xiong_it.easypay.enums.PayWay;
 import io.github.xiong_it.easypay.paystrategy.ALiPayStrategy;
 import io.github.xiong_it.easypay.paystrategy.PayContext;
 import io.github.xiong_it.easypay.paystrategy.WeChatPayStrategy;
@@ -16,156 +20,99 @@ import io.github.xiong_it.easypay.paystrategy.WeChatPayStrategy;
 public final class EasyPay {
     private OnPayInfoRequestListener mOnPayInfoRequestListener;
     private OnPayResultListener mOnPayResultListener;
-    private Activity mContext;
-    private static String mWechatAppID;
-    private PayWay mPayWay;
-    private int mGoodsPrice;
-    private String mGoodsTitle;
-    private String mGoodsIntroduction;
-    private HttpType mHttpType;
-    private HttpClientType mHttpClientType = HttpClientType.Retrofit;
-    private String mApiUrl;
+    private PayParams mPayParams;
+    private Activity mActivity;
+
+    private static EasyPay sInstance;
+
+    public static final int NETWORK_NOT_AVAILABLE_ERR = -1;
+    public static final int REQUEST_TIME_OUT_ERR = -2;
 
     private EasyPay(Activity activity) {
-        mContext = activity;
+        mActivity = activity;
     }
 
-    public static String getWeChatAppID() {
-        return mWechatAppID;
-    }
-
-    private void setWechatAppID(String id) {
-        mWechatAppID = id;
-    }
-
-    private void setPayWay(PayWay mPayWay) {
-        this.mPayWay = mPayWay;
-    }
-
-    private void setGoodsPrice(int mGoodsPrice) {
-        this.mGoodsPrice = mGoodsPrice;
-    }
-
-    private void setGoodsTitle(String mGoodsTitle) {
-        this.mGoodsTitle = mGoodsTitle;
-    }
-
-    private void setGoodsIntroduction(String mGoodsIntroduction) {
-        this.mGoodsIntroduction = mGoodsIntroduction;
-    }
-
-    private void setHttpType(HttpType mHttpType) {
-        this.mHttpType = mHttpType;
-    }
-
-    private void setHttpClientType(HttpClientType mHttpClientType) {
-        this.mHttpClientType = mHttpClientType;
-    }
-
-    private void setApiUrl(String mApiUrl) {
-        this.mApiUrl = mApiUrl;
+    public static EasyPay getInstance(Activity activity) {
+        synchronized (sInstance) {
+            if (sInstance == null) {
+                sInstance = new EasyPay(activity);
+            }
+        }
+        return sInstance;
     }
 
     public void toPay(@NonNull OnPayResultListener onPayResultListener) {
         mOnPayResultListener = onPayResultListener;
+    }
 
-        if (mPayWay == null) {
+    private void doPay(String prePayInfo) {
+        PayWay way = mPayParams.getPayWay();
+        if (mPayParams.getPayWay() == null) {
             throw new NullPointerException("请设置支付方式");
         }
         PayContext pc = null;
-        switch (mPayWay) {
+        switch (way) {
             case WechatPay:
-                pc = new PayContext(new WeChatPayStrategy(mContext));
+                pc = new PayContext(new WeChatPayStrategy(mActivity, prePayInfo, mOnPayResultListener));
                 break;
 
             case ALiPay:
-                pc = new PayContext(new ALiPayStrategy(mContext));
+                pc = new PayContext(new ALiPayStrategy(mActivity, prePayInfo, mOnPayResultListener));
                 break;
 
             default:
-                pc = new PayContext(new WeChatPayStrategy(mContext));
+                pc = new PayContext(new WeChatPayStrategy(mActivity, prePayInfo, mOnPayResultListener));
                 break;
         }
-
         pc.pay();
     }
 
-    public EasyPay requestPayInfo(OnPayInfoRequestListener onPayInfoRequestListener) {
+    public EasyPay requestPayInfo(@NonNull PayParams params, OnPayInfoRequestListener onPayInfoRequestListener) {
         mOnPayInfoRequestListener = onPayInfoRequestListener;
 
+        mPayParams = params;
+
+        HttpType type = params.getHttpType();
+        NetworkClientInterf client = NetworkClientFactory.newClient(params.getNetworkClientType());
+        NetworkClientInterf.CallBack callBack = new NetworkClientInterf.CallBack() {
+            @Override
+            public void onSuccess(String result) {
+                doPay(result);
+            }
+
+            @Override
+            public void onFailure() {
+                sendPayResult(REQUEST_TIME_OUT_ERR);
+            }
+        };
+
+        switch (type) {
+            case Get:
+                client.get(mPayParams, callBack);
+                break;
+
+            case Post:
+            default:
+                client.post(mPayParams, callBack);
+                break;
+        }
         return this;
     }
 
-    public static class Builder {
-        Activity mContext;
-        String wechatAppId;
-        PayWay payWay;
-        int goodsPrice;
-        String goodsTitle;
-        String goodsIntroduction;
-        HttpType httpType;
-        HttpClientType httpClientType;
-        String apiUrl;
+    private void sendPayResult(int code) {
+        switch (code) {
+            case 1:
+                mOnPayResultListener.onPaySuccess(mPayParams.getPayWay());
+                break;
 
-        public Builder(Activity aty) {
-            mContext = aty;
+            case 0:
+                mOnPayResultListener.onPayCancel(mPayParams.getPayWay());
+                break;
+
+            default:
+                mOnPayResultListener.onPayFailure(mPayParams.getPayWay(), code);
+                break;
         }
-
-        public Builder wechatAppID(String appid) {
-            wechatAppId = appid;
-            return this;
-        }
-
-        public Builder payWay(PayWay way) {
-            payWay = way;
-            return this;
-        }
-
-        public Builder goodsPrice(int price) {
-            goodsPrice = price;
-            return this;
-        }
-
-        public Builder goodsTitle(String title) {
-            goodsTitle = title;
-            return this;
-        }
-
-        public Builder goodsIntroduction(String introduction) {
-            goodsIntroduction = introduction;
-            return this;
-        }
-
-        public Builder httpType(HttpType type) {
-            httpType = type;
-            return this;
-        }
-
-        public Builder httpClientType(HttpClientType clientType) {
-            httpClientType = clientType;
-            return this;
-        }
-
-        public Builder requestBaseUrl(String url) {
-            apiUrl = url;
-            return this;
-        }
-
-        public EasyPay build() {
-            EasyPay payClient = new EasyPay(mContext);
-
-            payClient.setWechatAppID(wechatAppId);
-            payClient.setPayWay(payWay);
-            payClient.setGoodsPrice(goodsPrice);
-            payClient.setGoodsTitle(goodsTitle);
-            payClient.setGoodsIntroduction(goodsIntroduction);
-            payClient.setHttpType(httpType);
-            payClient.setHttpClientType(httpClientType);
-            payClient.setApiUrl(apiUrl);
-
-            return payClient;
-        }
-
     }
 
 }

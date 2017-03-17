@@ -2,6 +2,8 @@ package io.github.xiong_it.easypay.paystrategy;
 
 import android.app.Activity;
 
+import io.github.xiong_it.easypay.callback.OnPayResultListener;
+
 /**
  * Author: michaelx
  * Create: 17-3-13.
@@ -15,8 +17,8 @@ import android.app.Activity;
  */
 
 public class ALiPayStrategy extends BasePayStrategy {
-    public ALiPayStrategy(Activity aty) {
-        super(aty);
+    public ALiPayStrategy(Activity aty, String prePayInfo, OnPayResultListener resultListener) {
+        super(aty, prePayInfo, resultListener);
     }
 
     @Override

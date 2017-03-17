@@ -1,7 +1,8 @@
 package io.github.xiong_it.easypay.paystrategy;
 
 import android.app.Activity;
-import android.content.Context;
+
+import io.github.xiong_it.easypay.callback.OnPayResultListener;
 
 /**
  * Author: michaelx
@@ -17,9 +18,13 @@ import android.content.Context;
 
 public abstract class BasePayStrategy implements PayStrategyInterf{
     protected Activity mActivity;
+    protected String mPrePayInfo;
+    protected OnPayResultListener mOnPayResultListener;
 
-    public BasePayStrategy(Activity aty) {
+    public BasePayStrategy(Activity aty, String prePayInfo, OnPayResultListener resultListener) {
         mActivity = aty;
+        mPrePayInfo = prePayInfo;
+        mOnPayResultListener = resultListener;
     }
 
     public abstract void toPay();

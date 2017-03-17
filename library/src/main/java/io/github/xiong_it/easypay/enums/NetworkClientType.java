@@ -1,4 +1,4 @@
-package io.github.xiong_it.easypay;
+package io.github.xiong_it.easypay.enums;
 
 /**
  * Author: michaelx
@@ -12,7 +12,7 @@ package io.github.xiong_it.easypay;
  * Description: 网络请求的框架枚举
  */
 
-public enum HttpClientType {
+public enum NetworkClientType {
     OkHttp,
     Volley,
     Retrofit,

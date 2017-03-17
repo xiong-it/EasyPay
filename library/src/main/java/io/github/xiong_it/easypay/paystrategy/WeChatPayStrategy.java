@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
+import io.github.xiong_it.easypay.callback.OnPayResultListener;
+
 /**
  * Author: michaelx
  * Create: 17-3-13.
@@ -25,8 +27,8 @@ public class WeChatPayStrategy extends BasePayStrategy {
     public static final String WECHAT_PAY_RESULT_ACTION = "com.tencent.mm.opensdk.WECHAT_PAY_RESULT_ACTION";
     public static final String WECHAT_PAY_RESULT_EXTRA = "com.tencent.mm.opensdk.WECHAT_PAY_RESULT_EXTRA";
 
-    public WeChatPayStrategy(Activity aty) {
-        super(aty);
+    public WeChatPayStrategy(Activity aty, String prePayInfo, OnPayResultListener resultListener) {
+        super(aty, prePayInfo, resultListener);
     }
 
     @Override

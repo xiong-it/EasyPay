@@ -1,6 +1,6 @@
 package io.github.xiong_it.easypay.callback;
 
-import io.github.xiong_it.easypay.PayWay;
+import io.github.xiong_it.easypay.enums.PayWay;
 
 /**
  * Created by michaelx on 2017/3/11.
