@@ -17,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*EasyPay pay = new EasyPay.Builder(this)
+        
+        PayParams params = new PayParams.Builder(this)
                 .wechatAppID("")
                 .payWay(PayWay.WechatPay)
                 .goodsPrice(1000)
@@ -29,54 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 .requestBaseUrl("")
                 .build();
 
-        pay.requestPayInfo(new OnPayInfoRequestListener() {
-            @Override
-            public void onPayInfoRequetStart() {
-
-            }
-
-            @Override
-            public void onPayInfoRequesting() {
-
-            }
-
-            @Override
-            public void onPayInfoRequstSuccess() {
-
-            }
-
-            @Override
-            public void onPayInfoRequestFailure() {
-
-            }
-        }).toPay(new OnPayResultListener() {
-            @Override
-            public void onPayCancel(PayWay payWay) {
-
-            }
-
-            @Override
-            public void onPaySuccess(PayWay payWay) {
-
-            }
-
-            @Override
-            public void onPayFailure(PayWay payWay, int errCode) {
-
-            }
-        });*/
-        PayParams params = new PayParams.Builder()
-                .wechatAppID("")
-                .payWay(PayWay.WechatPay)
-                .goodsPrice(1000)
-                .goodsTitle("")
-                .goodsIntroduction("")
-                .httpType(HttpType.Post)
-                .httpClientType(NetworkClientType.Retrofit)
-                .requestBaseUrl("")
-                .build();
-
-        EasyPay.getInstance(this).requestPayInfo(params, new OnPayInfoRequestListener() {
+        EasyPay.getInstance().requestPayInfo(params, new OnPayInfoRequestListener() {
             @Override
             public void onPayInfoRequetStart() {
 

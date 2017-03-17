@@ -17,10 +17,10 @@ import io.github.xiong_it.easypay.util.ThreadManager;
  * Blog:{@see <a href="http://blog.csdn.net/xiong_it">http://blog.csdn.net/xiong_it</a>} | {@see <a href="https://xiong-it.github.io">https://xiong-it.github.io</a>}
  * github:{@see <a href="https://github.com/xiong-it">https://github.com/xiong-it</a>}
  * <p>
- * Description: here is the description for this file.
+ * Description: HttpURLConnection网络请求.
  */
 
-public class HttpUrlConnetClient implements NetworkClientInterf {
+public class HttpUrlConnectionClient implements NetworkClientInterf {
 
     public void get(final PayParams payParams, final CallBack callBack) {
         Runnable command = new Thread() {
@@ -38,7 +38,7 @@ public class HttpUrlConnetClient implements NetworkClientInterf {
                     connection.setConnectTimeout(20 * 1000);
                     connection.setReadTimeout(10 * 1000);
 
-                    connection.addRequestProperty("payway", payParams.getPayWay().toString());
+                    connection.addRequestProperty("pay_way", payParams.getPayWay().toString());
                     connection.addRequestProperty("price", String.valueOf(payParams.getGoodsPrice()));
                     connection.addRequestProperty("goods_name", payParams.getGoodsTitle());
                     connection.addRequestProperty("goods_introduction", payParams.getGoodsIntroduction());
@@ -92,7 +92,7 @@ public class HttpUrlConnetClient implements NetworkClientInterf {
                     connection.setConnectTimeout(20 * 1000);
                     connection.setReadTimeout(10 * 1000);
 
-                    connection.addRequestProperty("payway", payParams.getPayWay().toString());
+                    connection.addRequestProperty("pay_way", payParams.getPayWay().toString());
                     connection.addRequestProperty("price", String.valueOf(payParams.getGoodsPrice()));
                     connection.addRequestProperty("goods_name", payParams.getGoodsTitle());
                     connection.addRequestProperty("goods_introduction", payParams.getGoodsIntroduction());

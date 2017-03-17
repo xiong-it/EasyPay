@@ -1,5 +1,7 @@
 package io.github.xiong_it.easypay;
 
+import android.app.Activity;
+
 import io.github.xiong_it.easypay.enums.NetworkClientType;
 import io.github.xiong_it.easypay.enums.HttpType;
 import io.github.xiong_it.easypay.enums.PayWay;
@@ -17,6 +19,7 @@ import io.github.xiong_it.easypay.enums.PayWay;
  */
 
 public class PayParams {
+    private Activity mActivity;
     private String mWechatAppID;
     private PayWay mPayWay;
     private int mGoodsPrice;
@@ -25,6 +28,14 @@ public class PayParams {
     private HttpType mHttpType;
     private NetworkClientType mNetworkClientType = NetworkClientType.Retrofit;
     private String mApiUrl;
+
+    public Activity getActivity() {
+        return mActivity;
+    }
+
+    private void setActivity(Activity activity) {
+        mActivity = activity;
+    }
 
     public String getWeChatAppID() {
         return mWechatAppID;
@@ -91,6 +102,7 @@ public class PayParams {
     }
 
     public static class Builder {
+        Activity mActivity;
         String wechatAppId;
         PayWay payWay;
         int goodsPrice;
@@ -99,6 +111,10 @@ public class PayParams {
         HttpType httpType;
         NetworkClientType mNetworkClientType;
         String apiUrl;
+
+        public Builder(Activity activity) {
+            mActivity = activity;
+        }
 
         public PayParams.Builder wechatAppID(String appid) {
             wechatAppId = appid;
@@ -143,6 +159,7 @@ public class PayParams {
         public PayParams build() {
             PayParams params = new PayParams();
 
+            params.setActivity(mActivity);
             params.setWechatAppID(wechatAppId);
             params.setPayWay(payWay);
             params.setGoodsPrice(goodsPrice);

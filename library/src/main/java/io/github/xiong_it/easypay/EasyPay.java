@@ -1,6 +1,5 @@
 package io.github.xiong_it.easypay;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import io.github.xiong_it.easypay.Network.NetworkClientFactory;
@@ -21,21 +20,19 @@ public final class EasyPay {
     private OnPayInfoRequestListener mOnPayInfoRequestListener;
     private OnPayResultListener mOnPayResultListener;
     private PayParams mPayParams;
-    private Activity mActivity;
 
     private static EasyPay sInstance;
 
     public static final int NETWORK_NOT_AVAILABLE_ERR = -1;
     public static final int REQUEST_TIME_OUT_ERR = -2;
 
-    private EasyPay(Activity activity) {
-        mActivity = activity;
+    private EasyPay() {
     }
 
-    public static EasyPay getInstance(Activity activity) {
+    public static EasyPay getInstance() {
         synchronized (sInstance) {
             if (sInstance == null) {
-                sInstance = new EasyPay(activity);
+                sInstance = new EasyPay();
             }
         }
         return sInstance;
@@ -53,15 +50,15 @@ public final class EasyPay {
         PayContext pc = null;
         switch (way) {
             case WechatPay:
-                pc = new PayContext(new WeChatPayStrategy(mActivity, prePayInfo, mOnPayResultListener));
+                pc = new PayContext(new WeChatPayStrategy(mPayParams.getActivity(), prePayInfo, mOnPayResultListener));
                 break;
 
             case ALiPay:
-                pc = new PayContext(new ALiPayStrategy(mActivity, prePayInfo, mOnPayResultListener));
+                pc = new PayContext(new ALiPayStrategy(mPayParams.getActivity(), prePayInfo, mOnPayResultListener));
                 break;
 
             default:
-                pc = new PayContext(new WeChatPayStrategy(mActivity, prePayInfo, mOnPayResultListener));
+                pc = new PayContext(new WeChatPayStrategy(mPayParams.getActivity(), prePayInfo, mOnPayResultListener));
                 break;
         }
         pc.pay();
