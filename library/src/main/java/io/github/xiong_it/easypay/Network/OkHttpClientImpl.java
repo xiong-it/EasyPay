@@ -35,9 +35,9 @@ public class OkHttpClientImpl implements NetworkClientInterf {
                 .append("&")
                 .append("price=").append(payParams.getGoodsPrice())
                 .append("&")
-                .append("goods_name").append(payParams.getGoodsTitle())
+                .append("goods_name=").append(payParams.getGoodsTitle())
                 .append("&")
-                .append("goods_introduction").append(payParams.getGoodsIntroduction());
+                .append("goods_introduction=").append(payParams.getGoodsIntroduction());
 
         OkHttpClient mOkHttpClient = new OkHttpClient();
         final Request request = new Request.Builder().url(sburl.toString()).build();

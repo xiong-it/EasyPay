@@ -17,16 +17,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         PayParams params = new PayParams.Builder(this)
-                .wechatAppID("")
+                .wechatAppID("fjsldkajfklasjflkasjlkf")
                 .payWay(PayWay.WechatPay)
                 .goodsPrice(1000)
-                .goodsTitle("")
-                .goodsIntroduction("")
-                .httpType(HttpType.Post)
-                .httpClientType(NetworkClientType.Retrofit)
-                .requestBaseUrl("")
+                .goodsTitle("test")
+                .goodsIntroduction("testesflksdajflkajsdlkfsa")
+                .httpType(HttpType.Get)
+                .httpClientType(NetworkClientType.HttpUrlConnetion)
+                .requestBaseUrl("http://blog.csdn.net/")
                 .build();
 
         EasyPay.getInstance().requestPayInfo(params, new OnPayInfoRequestListener() {

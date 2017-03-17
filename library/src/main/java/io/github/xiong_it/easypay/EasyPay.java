@@ -30,12 +30,16 @@ public final class EasyPay {
     }
 
     public static EasyPay getInstance() {
-        synchronized (sInstance) {
+        synchronized (EasyPay.class) {
             if (sInstance == null) {
                 sInstance = new EasyPay();
             }
         }
         return sInstance;
+    }
+
+    public String getWeChatAppID() {
+        return mPayParams.getWeChatAppID();
     }
 
     public void toPay(@NonNull OnPayResultListener onPayResultListener) {
@@ -71,7 +75,7 @@ public final class EasyPay {
 
         HttpType type = params.getHttpType();
         NetworkClientInterf client = NetworkClientFactory.newClient(params.getNetworkClientType());
-        NetworkClientInterf.CallBack callBack = new NetworkClientInterf.CallBack() {
+        NetworkClientInterf.CallBack callBack = new NetworkClientInterf.CallBack<String>() {
             @Override
             public void onSuccess(String result) {
                 doPay(result);

@@ -15,8 +15,8 @@ import io.github.xiong_it.easypay.PayParams;
  */
 
 public interface NetworkClientInterf {
-    interface CallBack {
-        void onSuccess(String result);
+    interface CallBack<R> {
+        void onSuccess(R result);
         void onFailure();
     }
 

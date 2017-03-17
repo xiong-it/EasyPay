@@ -26,7 +26,7 @@ public class PayParams {
     private String mGoodsTitle;
     private String mGoodsIntroduction;
     private HttpType mHttpType;
-    private NetworkClientType mNetworkClientType = NetworkClientType.Retrofit;
+    private NetworkClientType mNetworkClientType = NetworkClientType.HttpUrlConnetion;
     private String mApiUrl;
 
     public Activity getActivity() {
