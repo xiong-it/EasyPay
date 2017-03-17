@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 
 import io.github.xiong_it.easypay.callback.OnPayInfoRequestListener;
 import io.github.xiong_it.easypay.callback.OnPayResultListener;
+import io.github.xiong_it.easypay.paystrategy.ALiPayStrategy;
+import io.github.xiong_it.easypay.paystrategy.PayContext;
+import io.github.xiong_it.easypay.paystrategy.WeChatPayStrategy;
 
 /**
  * Created by michaelx on 2017/3/11.
@@ -14,17 +17,21 @@ public final class EasyPay {
     private OnPayInfoRequestListener mOnPayInfoRequestListener;
     private OnPayResultListener mOnPayResultListener;
     private Activity mContext;
-    private String mWechatAppID;
+    private static String mWechatAppID;
     private PayWay mPayWay;
     private int mGoodsPrice;
     private String mGoodsTitle;
     private String mGoodsIntroduction;
     private HttpType mHttpType;
-    private HttpClientType mHttpClientType;
+    private HttpClientType mHttpClientType = HttpClientType.Retrofit;
     private String mApiUrl;
 
     private EasyPay(Activity activity) {
         mContext = activity;
+    }
+
+    public static String getWeChatAppID() {
+        return mWechatAppID;
     }
 
     private void setWechatAppID(String id) {
@@ -65,22 +72,27 @@ public final class EasyPay {
         if (mPayWay == null) {
             throw new NullPointerException("请设置支付方式");
         }
+        PayContext pc = null;
         switch (mPayWay) {
             case WechatPay:
-
+                pc = new PayContext(new WeChatPayStrategy(mContext));
                 break;
 
             case ALiPay:
+                pc = new PayContext(new ALiPayStrategy(mContext));
+                break;
 
+            default:
+                pc = new PayContext(new WeChatPayStrategy(mContext));
                 break;
         }
+
+        pc.pay();
     }
 
     public EasyPay requestPayInfo(OnPayInfoRequestListener onPayInfoRequestListener) {
         mOnPayInfoRequestListener = onPayInfoRequestListener;
-        if (mHttpClientType == null) {
-            mHttpClientType = HttpClientType.HttpUrlConnetion;
-        }
+
         return this;
     }
 
@@ -134,7 +146,7 @@ public final class EasyPay {
             return this;
         }
 
-        public Builder requestServerUrl(String url) {
+        public Builder requestBaseUrl(String url) {
             apiUrl = url;
             return this;
         }

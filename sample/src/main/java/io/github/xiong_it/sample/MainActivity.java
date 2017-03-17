@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 .goodsIntroduction("")
                 .httpType(HttpType.Post)
                 .httpClientType(HttpClientType.Retrofit)
-                .requestServerUrl("")
+                .requestBaseUrl("")
                 .build();
 
         pay.requestPayInfo(new OnPayInfoRequestListener() {
