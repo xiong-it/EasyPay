@@ -112,6 +112,7 @@ public class HttpUrlConnectionClient implements NetworkClientInterf {
                             .append("goods_introduction=").append(payParams.getGoodsIntroduction());
                     String params = stringBuffer.toString();
                     outputStream.write(params.getBytes());
+                    outputStream.flush();
 
                     connection.connect();
 
