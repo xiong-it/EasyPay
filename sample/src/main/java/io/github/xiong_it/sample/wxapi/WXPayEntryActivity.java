@@ -15,8 +15,8 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import io.github.xiong_it.easypay.EasyPay;
 
-import static io.github.xiong_it.easypay.paystrategy.WeChatPayStrategy.WECHAT_PAY_RESULT_ACTION;
-import static io.github.xiong_it.easypay.paystrategy.WeChatPayStrategy.WECHAT_PAY_RESULT_EXTRA;
+import static io.github.xiong_it.easypay.pay.paystrategy.WeChatPayStrategy.WECHAT_PAY_RESULT_ACTION;
+import static io.github.xiong_it.easypay.pay.paystrategy.WeChatPayStrategy.WECHAT_PAY_RESULT_EXTRA;
 
 /**
  * Created by michaelx on 17-3-15.

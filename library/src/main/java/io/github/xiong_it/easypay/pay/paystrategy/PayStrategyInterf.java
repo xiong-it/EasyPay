@@ -1,4 +1,4 @@
-package io.github.xiong_it.easypay.paystrategy;
+package io.github.xiong_it.easypay.pay.paystrategy;
 
 /**
  * Created by michaelx on 17-3-15.

@@ -8,9 +8,9 @@ import io.github.xiong_it.easypay.callback.OnPayInfoRequestListener;
 import io.github.xiong_it.easypay.callback.OnPayResultListener;
 import io.github.xiong_it.easypay.enums.HttpType;
 import io.github.xiong_it.easypay.enums.PayWay;
-import io.github.xiong_it.easypay.paystrategy.ALiPayStrategy;
-import io.github.xiong_it.easypay.paystrategy.PayContext;
-import io.github.xiong_it.easypay.paystrategy.WeChatPayStrategy;
+import io.github.xiong_it.easypay.pay.paystrategy.ALiPayStrategy;
+import io.github.xiong_it.easypay.pay.paystrategy.PayContext;
+import io.github.xiong_it.easypay.pay.paystrategy.WeChatPayStrategy;
 
 /**
  * Created by michaelx on 2017/3/11.
@@ -23,8 +23,22 @@ public final class EasyPay {
 
     private static EasyPay sInstance;
 
-    public static final int NETWORK_NOT_AVAILABLE_ERR = -1;
-    public static final int REQUEST_TIME_OUT_ERR = -2;
+    // 通用结果码
+    public static final int COMMON_PAY_OK = 0;
+    public static final int COMMON_PAY_ERR = -1;
+    public static final int COMMON_USER_CACELED_ERR = -2;
+    public static final int COMMON_NETWORK_NOT_AVAILABLE_ERR = 1;
+    public static final int COMMON_REQUEST_TIME_OUT_ERR = 2;
+
+    // 微信结果码
+    public static final int WECHAT_SENT_FAILED_ERR = -3;
+    public static final int WECHAT_AUTH_DENIED_ERR = -4;
+    public static final int WECHAT_UNSUPPORT_ERR = -5;
+    public static final int WECHAT_BAN_ERR = -6;
+    public static final int WECHAT_NOT_INSTALLED_ERR = -7;
+
+    // 支付宝结果码
+
 
     private EasyPay() {
     }
@@ -52,17 +66,25 @@ public final class EasyPay {
             throw new NullPointerException("请设置支付方式");
         }
         PayContext pc = null;
+
+        EasyPay.PayCallBack callBack = new PayCallBack() {
+            @Override
+            public void onPayCallBack(int code) {
+                sendPayResult(code);
+            }
+        };
+
         switch (way) {
             case WechatPay:
-                pc = new PayContext(new WeChatPayStrategy(mPayParams.getActivity(), prePayInfo, mOnPayResultListener));
+                pc = new PayContext(new WeChatPayStrategy(mPayParams, prePayInfo, callBack));
                 break;
 
             case ALiPay:
-                pc = new PayContext(new ALiPayStrategy(mPayParams.getActivity(), prePayInfo, mOnPayResultListener));
+                pc = new PayContext(new ALiPayStrategy(mPayParams, prePayInfo, callBack));
                 break;
 
             default:
-                pc = new PayContext(new WeChatPayStrategy(mPayParams.getActivity(), prePayInfo, mOnPayResultListener));
+                pc = new PayContext(new WeChatPayStrategy(mPayParams, prePayInfo, callBack));
                 break;
         }
         pc.pay();
@@ -86,7 +108,7 @@ public final class EasyPay {
             @Override
             public void onFailure() {
                 mOnPayInfoRequestListener.onPayInfoRequestFailure();
-                sendPayResult(REQUEST_TIME_OUT_ERR);
+                sendPayResult(COMMON_REQUEST_TIME_OUT_ERR);
             }
         };
 
@@ -105,11 +127,11 @@ public final class EasyPay {
 
     private void sendPayResult(int code) {
         switch (code) {
-            case 1:
+            case COMMON_PAY_OK:
                 mOnPayResultListener.onPaySuccess(mPayParams.getPayWay());
                 break;
 
-            case 0:
+            case COMMON_USER_CACELED_ERR:
                 mOnPayResultListener.onPayCancel(mPayParams.getPayWay());
                 break;
 
@@ -117,6 +139,10 @@ public final class EasyPay {
                 mOnPayResultListener.onPayFailure(mPayParams.getPayWay(), code);
                 break;
         }
+    }
+
+    public interface PayCallBack {
+        void onPayCallBack(int code);
     }
 
 }
