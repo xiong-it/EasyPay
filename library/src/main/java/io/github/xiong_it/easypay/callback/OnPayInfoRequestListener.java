@@ -7,8 +7,6 @@ package io.github.xiong_it.easypay.callback;
 public interface OnPayInfoRequestListener {
     void onPayInfoRequetStart();
 
-    void onPayInfoRequesting();
-
     void onPayInfoRequstSuccess();
 
     void onPayInfoRequestFailure();

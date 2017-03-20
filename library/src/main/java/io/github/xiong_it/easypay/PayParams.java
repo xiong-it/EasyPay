@@ -12,8 +12,8 @@ import io.github.xiong_it.easypay.enums.PayWay;
  * <p>
  * Endcode: UTF-8
  * <p>
- * Blog:{@see <a href="http://blog.csdn.net/xiong_it">http://blog.csdn.net/xiong_it</a>} | {@see <a href="https://xiong-it.github.io">https://xiong-it.github.io</a>}
- * github:{@see <a href="https://github.com/xiong-it">https://github.com/xiong-it</a>}
+ * Blog:http://blog.csdn.net/xiong_it | https://xiong-it.github.io
+ * github:https://github.com/xiong-it
  * <p>
  * Description: 支付相关参数.
  */
@@ -131,8 +131,8 @@ public class PayParams {
             return this;
         }
 
-        public PayParams.Builder goodsTitle(String title) {
-            goodsTitle = title;
+        public PayParams.Builder goodsName(String name) {
+            goodsTitle = name;
             return this;
         }
 

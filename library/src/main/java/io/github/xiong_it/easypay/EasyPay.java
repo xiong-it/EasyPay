@@ -14,7 +14,15 @@ import io.github.xiong_it.easypay.pay.paystrategy.WeChatPayStrategy;
 import io.github.xiong_it.easypay.util.NetworkUtils;
 
 /**
- * Created by michaelx on 2017/3/11.
+ * Author: michaelx
+ * Create: 2017/3/11.
+ * <p>
+ * Endcode: UTF-8
+ * <p>
+ * Blog:http://blog.csdn.net/xiong_it | https://xiong-it.github.io
+ * github:https://github.com/xiong-it
+ * <p>
+ * Description: 支付SDK封装工具类.
  */
 
 public final class EasyPay {
@@ -68,6 +76,10 @@ public final class EasyPay {
         }
     }
 
+    /**
+     * 进行支付策略分发
+     * @param prePayInfo
+     */
     private void doPay(String prePayInfo) {
         PayWay way = mPayParams.getPayWay();
         if (mPayParams.getPayWay() == null) {
@@ -92,12 +104,18 @@ public final class EasyPay {
                 break;
 
             default:
-                pc = new PayContext(new WeChatPayStrategy(mPayParams, prePayInfo, callBack));
                 break;
         }
         pc.pay();
     }
 
+    /**
+     * 请求APP服务器获取预支付信息：微信，支付宝，银联都需要此步骤
+     *
+     * @param params
+     * @param onPayInfoRequestListener
+     * @return
+     */
     public EasyPay requestPayInfo(@NonNull PayParams params, OnPayInfoRequestListener onPayInfoRequestListener) {
         mOnPayInfoRequestListener = onPayInfoRequestListener;
         mOnPayInfoRequestListener.onPayInfoRequetStart();
@@ -133,6 +151,11 @@ public final class EasyPay {
         return this;
     }
 
+    /**
+     * 回调支付结果到请求界面
+     *
+     * @param code
+     */
     private void sendPayResult(int code) {
         switch (code) {
             case COMMON_PAY_OK:
