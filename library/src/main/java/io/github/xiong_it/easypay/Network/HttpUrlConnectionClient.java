@@ -102,10 +102,6 @@ public class HttpUrlConnectionClient implements NetworkClientInterf {
                     connection.setConnectTimeout(20 * 1000);
                     connection.setReadTimeout(10 * 1000);
 
-//                    connection.addRequestProperty("pay_way", payParams.getPayWay().toString());
-//                    connection.addRequestProperty("price", String.valueOf(payParams.getGoodsPrice()));
-//                    connection.addRequestProperty("goods_name", payParams.getGoodsTitle());
-//                    connection.addRequestProperty("goods_introduction", payParams.getGoodsIntroduction());
                     connection.connect();
 
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
