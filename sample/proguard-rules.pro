@@ -40,5 +40,46 @@
 -keep class com.alipay.**{*;}
 # for alipay.支付宝开放平台需求end
 
+#--------------- BEGIN: GSON ----------
+-keepattributes Signature
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+-keepattributes EnclosingMethod
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
+#--------------- END: GSON ----------
 
+#--------------- BEGIN: okhttp3 ----------
+-keepattributes Signature
+-keepattributes Annotation
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+-dontwarn okio.**
+#--------------- END: okhttp3 ----------
 
+#--------------- BEGIN: retrofit2 ----------
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+#--------------- END: retrofit2 ----------
+
+# for volley
+-keep class com.android.volley.** {*;}
+-keep class com.android.volley.toolbox.** {*;}
+-keep class com.android.volley.Response$* { *; }
+-keep class com.android.volley.Request$* { *; }
+-keep class com.android.volley.RequestQueue$* { *; }
+-keep class com.android.volley.toolbox.HurlStack$* { *; }
+-keep class com.android.volley.toolbox.ImageLoader$* { *; }
+
+# for javabean
+-keep class io.github.xiong_it.easypay.pay.PrePayInfo{ *; }
+
+# etc...
