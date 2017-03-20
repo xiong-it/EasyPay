@@ -86,16 +86,26 @@ public class HttpUrlConnectionClient implements NetworkClientInterf {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    url = new URL(apiUrl);
+                    StringBuffer sburl = new StringBuffer();
+                    sburl.append(apiUrl)
+                            .append("?")
+                            .append("pay_way=").append(payParams.getPayWay())
+                            .append("&")
+                            .append("price=").append(payParams.getGoodsPrice())
+                            .append("&")
+                            .append("goods_name=").append(payParams.getGoodsTitle())
+                            .append("&")
+                            .append("goods_introduction=").append(payParams.getGoodsIntroduction());
+                    url = new URL(sburl.toString());
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(20 * 1000);
                     connection.setReadTimeout(10 * 1000);
 
-                    connection.addRequestProperty("pay_way", payParams.getPayWay().toString());
-                    connection.addRequestProperty("price", String.valueOf(payParams.getGoodsPrice()));
-                    connection.addRequestProperty("goods_name", payParams.getGoodsTitle());
-                    connection.addRequestProperty("goods_introduction", payParams.getGoodsIntroduction());
+//                    connection.addRequestProperty("pay_way", payParams.getPayWay().toString());
+//                    connection.addRequestProperty("price", String.valueOf(payParams.getGoodsPrice()));
+//                    connection.addRequestProperty("goods_name", payParams.getGoodsTitle());
+//                    connection.addRequestProperty("goods_introduction", payParams.getGoodsIntroduction());
                     connection.connect();
 
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {

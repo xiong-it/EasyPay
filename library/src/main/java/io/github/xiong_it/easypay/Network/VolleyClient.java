@@ -37,9 +37,9 @@ public class VolleyClient implements NetworkClientInterf {
                 .append("&")
                 .append("price=").append(payParams.getGoodsPrice())
                 .append("&")
-                .append("goods_name").append(payParams.getGoodsTitle())
+                .append("goods_name=").append(payParams.getGoodsTitle())
                 .append("&")
-                .append("goods_introduction").append(payParams.getGoodsIntroduction());
+                .append("goods_introduction=").append(payParams.getGoodsIntroduction());
         StringRequest request = new StringRequest(Request.Method.GET, sburl.toString(),
                 new Response.Listener<String>() {
                     @Override
