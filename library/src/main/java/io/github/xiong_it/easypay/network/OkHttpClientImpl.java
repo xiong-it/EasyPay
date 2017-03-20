@@ -1,4 +1,4 @@
-package io.github.xiong_it.easypay.Network;
+package io.github.xiong_it.easypay.network;
 
 import java.io.IOException;
 

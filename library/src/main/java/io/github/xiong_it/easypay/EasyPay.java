@@ -2,8 +2,8 @@ package io.github.xiong_it.easypay;
 
 import android.support.annotation.NonNull;
 
-import io.github.xiong_it.easypay.Network.NetworkClientFactory;
-import io.github.xiong_it.easypay.Network.NetworkClientInterf;
+import io.github.xiong_it.easypay.network.NetworkClientFactory;
+import io.github.xiong_it.easypay.network.NetworkClientInterf;
 import io.github.xiong_it.easypay.callback.OnPayInfoRequestListener;
 import io.github.xiong_it.easypay.callback.OnPayResultListener;
 import io.github.xiong_it.easypay.enums.HttpType;
@@ -70,6 +70,7 @@ public final class EasyPay {
 
     public EasyPay requestPayInfo(@NonNull PayParams params, OnPayInfoRequestListener onPayInfoRequestListener) {
         mOnPayInfoRequestListener = onPayInfoRequestListener;
+        mOnPayInfoRequestListener.onPayInfoRequetStart();
 
         mPayParams = params;
 
@@ -78,11 +79,13 @@ public final class EasyPay {
         NetworkClientInterf.CallBack callBack = new NetworkClientInterf.CallBack<String>() {
             @Override
             public void onSuccess(String result) {
+                mOnPayInfoRequestListener.onPayInfoRequstSuccess();
                 doPay(result);
             }
 
             @Override
             public void onFailure() {
+                mOnPayInfoRequestListener.onPayInfoRequestFailure();
                 sendPayResult(REQUEST_TIME_OUT_ERR);
             }
         };

@@ -25,8 +25,8 @@ public class PayParams {
     private int mGoodsPrice;
     private String mGoodsTitle;
     private String mGoodsIntroduction;
-    private HttpType mHttpType;
-    private NetworkClientType mNetworkClientType = NetworkClientType.HttpUrlConnetion;
+    private HttpType mHttpType = HttpType.Post;
+    private NetworkClientType mNetworkClientType = NetworkClientType.OkHttp;
     private String mApiUrl;
 
     public Activity getActivity() {

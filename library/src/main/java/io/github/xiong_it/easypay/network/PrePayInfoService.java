@@ -1,4 +1,4 @@
-package io.github.xiong_it.easypay.Network;
+package io.github.xiong_it.easypay.network;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

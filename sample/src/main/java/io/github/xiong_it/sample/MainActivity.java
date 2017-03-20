@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 .goodsTitle("test")
                 .goodsIntroduction("testesflksdajflkajsdlkfsa")
                 .httpType(HttpType.Get)
-                .httpClientType(NetworkClientType.HttpUrlConnetion)
+                .httpClientType(NetworkClientType.Retrofit)
                 .requestBaseUrl("http://blog.csdn.net/")
                 .build();
 

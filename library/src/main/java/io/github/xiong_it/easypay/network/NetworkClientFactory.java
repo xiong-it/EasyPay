@@ -1,4 +1,4 @@
-package io.github.xiong_it.easypay.Network;
+package io.github.xiong_it.easypay.network;
 
 import io.github.xiong_it.easypay.enums.NetworkClientType;
 
