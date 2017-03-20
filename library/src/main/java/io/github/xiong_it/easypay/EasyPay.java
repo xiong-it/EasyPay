@@ -2,15 +2,16 @@ package io.github.xiong_it.easypay;
 
 import android.support.annotation.NonNull;
 
-import io.github.xiong_it.easypay.network.NetworkClientFactory;
-import io.github.xiong_it.easypay.network.NetworkClientInterf;
 import io.github.xiong_it.easypay.callback.OnPayInfoRequestListener;
 import io.github.xiong_it.easypay.callback.OnPayResultListener;
 import io.github.xiong_it.easypay.enums.HttpType;
 import io.github.xiong_it.easypay.enums.PayWay;
+import io.github.xiong_it.easypay.network.NetworkClientFactory;
+import io.github.xiong_it.easypay.network.NetworkClientInterf;
 import io.github.xiong_it.easypay.pay.paystrategy.ALiPayStrategy;
 import io.github.xiong_it.easypay.pay.paystrategy.PayContext;
 import io.github.xiong_it.easypay.pay.paystrategy.WeChatPayStrategy;
+import io.github.xiong_it.easypay.util.NetworkUtils;
 
 /**
  * Created by michaelx on 2017/3/11.
@@ -38,7 +39,10 @@ public final class EasyPay {
     public static final int WECHAT_NOT_INSTALLED_ERR = -7;
 
     // 支付宝结果码
-
+    public static final int ALI_PAY_WAIT_CONFIRM_ERR = 8000;
+    public static final int ALI_PAY_NET_ERR = 6002;
+    public static final int ALI_PAY_UNKNOW_ERR = 6004;
+    public static final int ALI_PAY_OTHER_ERR = 6005;
 
     private EasyPay() {
     }
@@ -58,6 +62,10 @@ public final class EasyPay {
 
     public void toPay(@NonNull OnPayResultListener onPayResultListener) {
         mOnPayResultListener = onPayResultListener;
+
+        if (!NetworkUtils.isNetworkAvailable(mPayParams.getActivity().getApplicationContext())) {
+            sendPayResult(COMMON_NETWORK_NOT_AVAILABLE_ERR);
+        }
     }
 
     private void doPay(String prePayInfo) {
@@ -96,7 +104,6 @@ public final class EasyPay {
 
         mPayParams = params;
 
-        HttpType type = params.getHttpType();
         NetworkClientInterf client = NetworkClientFactory.newClient(params.getNetworkClientType());
         NetworkClientInterf.CallBack callBack = new NetworkClientInterf.CallBack<String>() {
             @Override
@@ -112,6 +119,7 @@ public final class EasyPay {
             }
         };
 
+        HttpType type = params.getHttpType();
         switch (type) {
             case Get:
                 client.get(mPayParams, callBack);
