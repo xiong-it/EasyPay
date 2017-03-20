@@ -2,6 +2,7 @@ package io.github.xiong_it.easypay.Network;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -17,7 +18,7 @@ import io.github.xiong_it.easypay.util.ThreadManager;
  * Blog:{@see <a href="http://blog.csdn.net/xiong_it">http://blog.csdn.net/xiong_it</a>} | {@see <a href="https://xiong-it.github.io">https://xiong-it.github.io</a>}
  * github:{@see <a href="https://github.com/xiong-it">https://github.com/xiong-it</a>}
  * <p>
- * Description: HttpURLConnection网络请求.
+ * Description: here is the description for this file.
  */
 
 public class HttpUrlConnectionClient implements NetworkClientInterf {
@@ -32,16 +33,22 @@ public class HttpUrlConnectionClient implements NetworkClientInterf {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 try {
-                    url = new URL(apiUrl);
+                    StringBuffer sburl = new StringBuffer();
+                    sburl.append(apiUrl)
+                            .append("?")
+                            .append("pay_way=").append(payParams.getPayWay())
+                            .append("&")
+                            .append("price=").append(payParams.getGoodsPrice())
+                            .append("&")
+                            .append("goods_name=").append(payParams.getGoodsTitle())
+                            .append("&")
+                            .append("goods_introduction=").append(payParams.getGoodsIntroduction());
+                    url = new URL(sburl.toString());
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
                     connection.setConnectTimeout(20 * 1000);
                     connection.setReadTimeout(10 * 1000);
 
-                    connection.addRequestProperty("pay_way", payParams.getPayWay().toString());
-                    connection.addRequestProperty("price", String.valueOf(payParams.getGoodsPrice()));
-                    connection.addRequestProperty("goods_name", payParams.getGoodsTitle());
-                    connection.addRequestProperty("goods_introduction", payParams.getGoodsIntroduction());
                     connection.connect();
 
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -85,22 +92,26 @@ public class HttpUrlConnectionClient implements NetworkClientInterf {
                 URL url = null;
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
+                OutputStream outputStream = null;
                 try {
-                    StringBuffer sburl = new StringBuffer();
-                    sburl.append(apiUrl)
-                            .append("?")
-                            .append("pay_way=").append(payParams.getPayWay())
+                    url = new URL(apiUrl);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setConnectTimeout(20 * 1000);
+                    connection.setReadTimeout(10 * 1000);
+                    connection.setDoOutput(true);
+
+                    outputStream = connection.getOutputStream();
+                    StringBuffer stringBuffer = new StringBuffer();
+                    stringBuffer.append("pay_way=").append(payParams.getPayWay())
                             .append("&")
                             .append("price=").append(payParams.getGoodsPrice())
                             .append("&")
                             .append("goods_name=").append(payParams.getGoodsTitle())
                             .append("&")
                             .append("goods_introduction=").append(payParams.getGoodsIntroduction());
-                    url = new URL(sburl.toString());
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    connection.setConnectTimeout(20 * 1000);
-                    connection.setReadTimeout(10 * 1000);
+                    String params = stringBuffer.toString();
+                    outputStream.write(params.getBytes());
 
                     connection.connect();
 
@@ -125,6 +136,13 @@ public class HttpUrlConnectionClient implements NetworkClientInterf {
                     if (inputStream != null) {
                         try {
                             inputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (outputStream != null) {
+                        try {
+                            outputStream.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
