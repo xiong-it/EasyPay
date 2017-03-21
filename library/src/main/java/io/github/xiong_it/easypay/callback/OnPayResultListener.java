@@ -7,9 +7,9 @@ import io.github.xiong_it.easypay.enums.PayWay;
  */
 
 public interface OnPayResultListener {
-    void onPayCancel(PayWay payWay);
-
     void onPaySuccess(PayWay payWay);
+
+    void onPayCancel(PayWay payWay);
 
     void onPayFailure(PayWay payWay, int errCode);
 }

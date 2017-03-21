@@ -12,14 +12,16 @@ import java.util.concurrent.Executors;
  * Blog:http://blog.csdn.net/xiong_it | https://xiong-it.github.io
  * github:https://github.com/xiong-it
  * <p>
- * Description: here is the description for this file.
+ * Description: 简易线程池管理工具.
  */
 
 public class ThreadManager {
-    private static ExecutorService mExecutors;
+    private static ExecutorService mExecutors = Executors.newSingleThreadExecutor();
 
     public static void execute(Runnable runnable) {
-        mExecutors = Executors.newSingleThreadExecutor();
+        if (mExecutors == null) {
+            mExecutors = Executors.newSingleThreadExecutor();
+        }
         mExecutors.execute(runnable);
     }
 

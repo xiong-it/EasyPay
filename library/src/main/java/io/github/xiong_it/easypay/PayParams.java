@@ -23,7 +23,7 @@ public class PayParams {
     private String mWechatAppID;
     private PayWay mPayWay;
     private int mGoodsPrice;
-    private String mGoodsTitle;
+    private String mGoodsName;
     private String mGoodsIntroduction;
     private HttpType mHttpType = HttpType.Post;
     private NetworkClientType mNetworkClientType = NetworkClientType.OkHttp;
@@ -61,12 +61,12 @@ public class PayParams {
         this.mGoodsPrice = mGoodsPrice;
     }
 
-    public String getGoodsTitle() {
-        return mGoodsTitle;
+    public String getGoodsName() {
+        return mGoodsName;
     }
 
-    private void setGoodsTitle(String mGoodsTitle) {
-        this.mGoodsTitle = mGoodsTitle;
+    private void setGoodsName(String mGoodsTitle) {
+        this.mGoodsName = mGoodsTitle;
     }
 
     public String getGoodsIntroduction() {
@@ -106,7 +106,7 @@ public class PayParams {
         String wechatAppId;
         PayWay payWay;
         int goodsPrice;
-        String goodsTitle;
+        String goodsName;
         String goodsIntroduction;
         HttpType httpType;
         NetworkClientType mNetworkClientType;
@@ -132,7 +132,7 @@ public class PayParams {
         }
 
         public PayParams.Builder goodsName(String name) {
-            goodsTitle = name;
+            goodsName = name;
             return this;
         }
 
@@ -163,7 +163,7 @@ public class PayParams {
             params.setWechatAppID(wechatAppId);
             params.setPayWay(payWay);
             params.setGoodsPrice(goodsPrice);
-            params.setGoodsTitle(goodsTitle);
+            params.setGoodsName(goodsName);
             params.setGoodsIntroduction(goodsIntroduction);
             params.setHttpType(httpType);
             params.setNetworkClientType(mNetworkClientType);

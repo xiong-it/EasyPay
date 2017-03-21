@@ -29,13 +29,15 @@ public class OkHttpClientImpl implements NetworkClientInterf {
     public void get(PayParams payParams, final CallBack c) {
         String baseUrl = payParams.getApiUrl();
         StringBuffer sburl = new StringBuffer();
+        // TODO 需要和服务器开发人员协商接口形式需要为：微信，支付宝，银联等 预支付信息走一个接口，通过pay_way或者其他字段进行区分。
+        // 以下信息出商品详情介绍(goods_introduction)外，均为必须上传字段，key值由开发者和服务器人员协商自行定义。
         sburl.append(baseUrl)
                 .append("?")
                 .append("pay_way=").append(payParams.getPayWay())
                 .append("&")
                 .append("price=").append(payParams.getGoodsPrice())
                 .append("&")
-                .append("goods_name=").append(payParams.getGoodsTitle())
+                .append("goods_name=").append(payParams.getGoodsName())
                 .append("&")
                 .append("goods_introduction=").append(payParams.getGoodsIntroduction());
 
@@ -62,10 +64,12 @@ public class OkHttpClientImpl implements NetworkClientInterf {
     @Override
     public void post(PayParams payParams, final CallBack c) {
         OkHttpClient mOkHttpClient = new OkHttpClient();
+        // TODO 需要和服务器开发人员协商接口形式需要为：微信，支付宝，银联等 预支付信息走一个接口，通过pay_way或者其他字段进行区分。
+        // 以下信息出商品详情介绍(goods_introduction)外，均为必须上传字段，key值由开发者和服务器人员协商自行定义。
         RequestBody body = new FormBody.Builder()
                 .add("pay_way", payParams.getPayWay().toString())
                 .add("price", String.valueOf(payParams.getGoodsPrice()))
-                .add("goods_name", payParams.getGoodsTitle())
+                .add("goods_name", payParams.getGoodsName())
                 .add("goods_introduction", payParams.getGoodsIntroduction())
                 .build();
 

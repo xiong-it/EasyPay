@@ -73,11 +73,12 @@ public class ALiPayStrategy extends BasePayStrategy {
     }
 
     @Override
-    public void toPay() {
+    public void doPay() {
         Runnable payRun = new Runnable() {
             @Override
             public void run() {
                 PayTask task = new PayTask(mPayParams.getActivity());
+                // TODO 请根据自身需求解析mPrePayinfo，最终的字符串值应该为一连串key=value形式
                 Map<String, String> result = task.payV2(mPrePayInfo, true);
                 Message message = mHandler.obtainMessage();
                 message.what = PAY_RESULT_MSG;

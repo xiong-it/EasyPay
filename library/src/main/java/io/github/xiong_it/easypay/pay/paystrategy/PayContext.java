@@ -21,7 +21,7 @@ public class PayContext {
 
     public void pay() {
         if (mStrategy != null) {
-            mStrategy.toPay();
+            mStrategy.doPay();
         }
     }
 }

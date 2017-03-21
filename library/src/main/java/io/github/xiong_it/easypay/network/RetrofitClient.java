@@ -26,7 +26,7 @@ public class RetrofitClient implements NetworkClientInterf {
                 .baseUrl(payParams.getApiUrl())
                 .build();
         PrePayInfoService service = retrofit.create(PrePayInfoService.class);
-        Call<ResponseBody> call = service.getPrePayInfo(payParams.getPayWay().toString(), String.valueOf(payParams.getGoodsPrice()), payParams.getGoodsTitle(), payParams.getGoodsIntroduction());
+        Call<ResponseBody> call = service.getPrePayInfo(payParams.getPayWay().toString(), String.valueOf(payParams.getGoodsPrice()), payParams.getGoodsName(), payParams.getGoodsIntroduction());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -50,7 +50,7 @@ public class RetrofitClient implements NetworkClientInterf {
                 .baseUrl(payParams.getApiUrl())
                 .build();
         PrePayInfoService service = retrofit.create(PrePayInfoService.class);
-        Call<ResponseBody> call = service.postPrePayInfo(payParams.getPayWay().toString(), String.valueOf(payParams.getGoodsPrice()), payParams.getGoodsTitle(), payParams.getGoodsIntroduction());
+        Call<ResponseBody> call = service.postPrePayInfo(payParams.getPayWay().toString(), String.valueOf(payParams.getGoodsPrice()), payParams.getGoodsName(), payParams.getGoodsIntroduction());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

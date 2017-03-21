@@ -37,7 +37,7 @@ public class VolleyClient implements NetworkClientInterf {
                 .append("&")
                 .append("price=").append(payParams.getGoodsPrice())
                 .append("&")
-                .append("goods_name=").append(payParams.getGoodsTitle())
+                .append("goods_name=").append(payParams.getGoodsName())
                 .append("&")
                 .append("goods_introduction=").append(payParams.getGoodsIntroduction());
         StringRequest request = new StringRequest(Request.Method.GET, sburl.toString(),
@@ -75,7 +75,7 @@ public class VolleyClient implements NetworkClientInterf {
                 Map<String, String> params = new HashMap<>();
                 params.put("pay_way", payParams.getPayWay().toString());
                 params.put("price", String.valueOf(payParams.getGoodsPrice()));
-                params.put("goods_name", payParams.getGoodsTitle());
+                params.put("goods_name", payParams.getGoodsName());
                 params.put("goods_introduction", payParams.getGoodsIntroduction());
 
                 return params;

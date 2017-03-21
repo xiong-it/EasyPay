@@ -34,13 +34,15 @@ public class HttpUrlConnectionClient implements NetworkClientInterf {
                 InputStream inputStream = null;
                 try {
                     StringBuffer sburl = new StringBuffer();
+                    // TODO 需要和服务器开发人员协商接口形式需要为：微信，支付宝，银联等 预支付信息走一个接口，通过pay_way或者其他字段进行区分。
+                    // 以下信息出商品详情介绍(goods_introduction)外，均为必须上传字段，key值由开发者和服务器人员协商自行定义。
                     sburl.append(apiUrl)
                             .append("?")
                             .append("pay_way=").append(payParams.getPayWay())
                             .append("&")
                             .append("price=").append(payParams.getGoodsPrice())
                             .append("&")
-                            .append("goods_name=").append(payParams.getGoodsTitle())
+                            .append("goods_name=").append(payParams.getGoodsName())
                             .append("&")
                             .append("goods_introduction=").append(payParams.getGoodsIntroduction());
                     url = new URL(sburl.toString());
@@ -93,6 +95,8 @@ public class HttpUrlConnectionClient implements NetworkClientInterf {
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
                 OutputStream outputStream = null;
+                // TODO 需要和服务器开发人员协商接口形式需要为：微信，支付宝，银联等 预支付信息走一个接口，通过pay_way或者其他字段进行区分。
+                // 以下信息出商品详情介绍(goods_introduction)外，均为必须上传字段，key值由开发者和服务器人员协商自行定义。
                 try {
                     url = new URL(apiUrl);
                     connection = (HttpURLConnection) url.openConnection();
@@ -107,7 +111,7 @@ public class HttpUrlConnectionClient implements NetworkClientInterf {
                             .append("&")
                             .append("price=").append(payParams.getGoodsPrice())
                             .append("&")
-                            .append("goods_name=").append(payParams.getGoodsTitle())
+                            .append("goods_name=").append(payParams.getGoodsName())
                             .append("&")
                             .append("goods_introduction=").append(payParams.getGoodsIntroduction());
                     String params = stringBuffer.toString();

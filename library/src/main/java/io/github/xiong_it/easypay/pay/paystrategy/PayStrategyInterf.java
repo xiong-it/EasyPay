@@ -6,5 +6,5 @@ package io.github.xiong_it.easypay.pay.paystrategy;
  */
 
 public interface PayStrategyInterf {
-    void toPay();
+    void doPay();
 }

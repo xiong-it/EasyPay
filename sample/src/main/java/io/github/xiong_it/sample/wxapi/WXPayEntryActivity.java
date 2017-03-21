@@ -30,7 +30,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mWxApi = WXAPIFactory.createWXAPI(this, EasyPay.getInstance().getWeChatAppID());
+        mWxApi = WXAPIFactory.createWXAPI(this, EasyPay.newInstance(null).getWeChatAppID());
         mWxApi.handleIntent(getIntent(), this);
     }
 

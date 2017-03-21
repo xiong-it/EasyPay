@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * Blog:http://blog.csdn.net/xiong_it | https://xiong-it.github.io
  * github:https://github.com/xiong-it
  * <p>
- * Description: 用于微信支付.
+ * Description: 用于微信支付.// TODO 集成时请按照自身需求修改此类
  */
 
 public class PrePayInfo {

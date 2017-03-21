@@ -1,5 +1,6 @@
 package io.github.xiong_it.easypay;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import io.github.xiong_it.easypay.callback.OnPayInfoRequestListener;
@@ -52,14 +53,14 @@ public final class EasyPay {
     public static final int ALI_PAY_UNKNOW_ERR = 6004;
     public static final int ALI_PAY_OTHER_ERR = 6005;
 
-    private EasyPay() {
+    private EasyPay(PayParams params) {
+        mPayParams = params;
     }
 
-    public static EasyPay getInstance() {
-        synchronized (EasyPay.class) {
-            if (sInstance == null) {
-                sInstance = new EasyPay();
-            }
+    public static EasyPay newInstance(PayParams params) {
+        if (params != null) {
+            sInstance = new EasyPay(params);
+            return sInstance;
         }
         return sInstance;
     }
@@ -70,7 +71,6 @@ public final class EasyPay {
 
     public void toPay(@NonNull OnPayResultListener onPayResultListener) {
         mOnPayResultListener = onPayResultListener;
-
         if (!NetworkUtils.isNetworkAvailable(mPayParams.getActivity().getApplicationContext())) {
             sendPayResult(COMMON_NETWORK_NOT_AVAILABLE_ERR);
         }
@@ -112,17 +112,14 @@ public final class EasyPay {
     /**
      * 请求APP服务器获取预支付信息：微信，支付宝，银联都需要此步骤
      *
-     * @param params
      * @param onPayInfoRequestListener
      * @return
      */
-    public EasyPay requestPayInfo(@NonNull PayParams params, OnPayInfoRequestListener onPayInfoRequestListener) {
+    public EasyPay requestPayInfo(OnPayInfoRequestListener onPayInfoRequestListener) {
         mOnPayInfoRequestListener = onPayInfoRequestListener;
         mOnPayInfoRequestListener.onPayInfoRequetStart();
 
-        mPayParams = params;
-
-        NetworkClientInterf client = NetworkClientFactory.newClient(params.getNetworkClientType());
+        NetworkClientInterf client = NetworkClientFactory.newClient(mPayParams.getNetworkClientType());
         NetworkClientInterf.CallBack callBack = new NetworkClientInterf.CallBack<String>() {
             @Override
             public void onSuccess(String result) {
@@ -137,7 +134,7 @@ public final class EasyPay {
             }
         };
 
-        HttpType type = params.getHttpType();
+        HttpType type = mPayParams.getHttpType();
         switch (type) {
             case Get:
                 client.get(mPayParams, callBack);
@@ -170,6 +167,14 @@ public final class EasyPay {
                 mOnPayResultListener.onPayFailure(mPayParams.getPayWay(), code);
                 break;
         }
+        releaseMomery();
+    }
+
+    private void releaseMomery() {
+        Activity activity = mPayParams.getActivity();
+        activity = null;
+        mPayParams = null;
+        sInstance = null;
     }
 
     public interface PayCallBack {

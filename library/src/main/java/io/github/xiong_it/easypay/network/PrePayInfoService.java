@@ -19,9 +19,11 @@ import retrofit2.http.Query;
  */
 
 public interface PrePayInfoService {
-    @GET("?")  // TODO 添加路径
+    // TODO 需要和服务器开发人员协商接口形式需要为：微信，支付宝，银联等 预支付信息走一个接口，通过pay_way或者其他字段进行区分。
+    // 以下信息出商品详情介绍(goods_introduction)外，均为必须上传字段，key值由开发者和服务器人员协商自行定义。
+    @GET("?")  // TODO 添加实际接口路径
     Call<ResponseBody> getPrePayInfo(@Query("pay_way")String payWay, @Query("price") String GoddsPrice, @Query("goods_name") String goodsName, @Query(("goods_introduction")) String goodsIntroduce);
 
-    @POST("?") // TODO 添加路径
+    @POST("?") // TODO 添加实际接口路径
     Call<ResponseBody> postPrePayInfo(@Query("pay_way")String payWay, @Query("price") String GoddsPrice, @Query("goods_name") String goodsName, @Query(("goods_introduction")) String goodsIntroduce);
 }

@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.google.gson.Gson;
-import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import io.github.xiong_it.easypay.EasyPay;
 import io.github.xiong_it.easypay.PayParams;
-import io.github.xiong_it.easypay.pay.PrePayInfo;
 
 /**
  * Author: michaelx
@@ -40,7 +37,7 @@ public class WeChatPayStrategy extends BasePayStrategy {
     }
 
     @Override
-    public void toPay() {
+    public void doPay() {
         IWXAPI wxapi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), mPayParams.getWeChatAppID(), true);
         if (!wxapi.isWXAppInstalled()) {
             super.mOnPayResultListener.onPayCallBack(EasyPay.WECHAT_NOT_INSTALLED_ERR);
@@ -54,8 +51,8 @@ public class WeChatPayStrategy extends BasePayStrategy {
         wxapi.registerApp(mPayParams.getWeChatAppID());
         registPayResultBroadcast();
 
-        // TODO 需要做正式解析，修改PrePayInfo.java类
-        Gson gson = new Gson();
+        // TODO 需要做正式解析，修改PrePayInfo.java类，并解开此处注释
+        /*Gson gson = new Gson();
         PrePayInfo payInfo = gson.fromJson(mPrePayInfo, PrePayInfo.class);
         PayReq req = new PayReq();
         req.appId = payInfo.appid;
@@ -67,7 +64,7 @@ public class WeChatPayStrategy extends BasePayStrategy {
         req.sign = payInfo.sign;
 
         // 发送支付请求：跳转到微信客户端
-        wxapi.sendReq(req);
+        wxapi.sendReq(req);*/
     }
 
     private void registPayResultBroadcast() {
@@ -79,10 +76,12 @@ public class WeChatPayStrategy extends BasePayStrategy {
     private void unRegistPayResultBroadcast() {
         if (mBroadcastManager != null && mReceiver != null) {
             mBroadcastManager.unregisterReceiver(mReceiver);
+            mBroadcastManager = null;
+            mReceiver = null;
         }
     }
 
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             int result = intent.getIntExtra(WECHAT_PAY_RESULT_EXTRA, -100);

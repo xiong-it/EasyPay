@@ -26,5 +26,5 @@ public abstract class BasePayStrategy implements PayStrategyInterf{
         mOnPayResultListener = resultListener;
     }
 
-    public abstract void toPay();
+    public abstract void doPay();
 }
