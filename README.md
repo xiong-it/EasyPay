@@ -129,6 +129,7 @@ host：http://api.yourhost.com/
 路径：pay/   
 请求方式为：Http，get  
 请求需要的参数字段:  
+  
 字段|类型|意义
 -|-|-
 pay_way|int|支付方式：0-微信，1-支付宝，2-银联 等
@@ -150,14 +151,16 @@ public interface PrePayInfoService {
 ```
 **当网络连接使用其他框架时，需要在NetworkClientInterf对应的实现类中修改路径及请求参数字段。**
 
-假如当前用户使用了**微信支付**，当服务器返回的数据格式如下时：
+假如当前用户使用了**微信支付**，当服务器返回的数据格式如下时:  
+
 字段|类型|意义
 -|-|-
 errCode|int|错误码，0表示数据正确返回
 errString|String|错误提示
 data|String|返给客户端的json数据
 
-假如json的格式如下：
+假如json的格式如下:  
+  
 字段|类型|意义
 -|-|-
 appid|String|微信appid
