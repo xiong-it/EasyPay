@@ -1,12 +1,6 @@
-# EasyPay:一个简单，易用，可扩展的Android端支付框架。  
-欢迎右上角star/fork，感谢!
-
----
-
-
  EasyPay是什么
 ==========
-EasyPay旨在帮助Android开发者快速集成接入移动支付SDK，其中包括主流的**微信APP支付**，**支付宝APP支付**，银联支付（开发中）。  
+EasyPay旨在帮助Android开发者快速集成接入移动支付SDK，其中包括主流的**微信APP支付**，**支付宝APP支付**，银联支付（开发中）。  欢迎右上角star/fork，感谢!  
 
 
 ----------
@@ -160,7 +154,7 @@ errString|String|错误提示
 data|String|返给客户端的json数据
 
 假如json的格式如下:  
-  
+
 字段|类型|意义
 -|-|-
 appid|String|微信appid
