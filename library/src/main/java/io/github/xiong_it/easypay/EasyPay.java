@@ -81,12 +81,8 @@ public final class EasyPay {
      * @param prePayInfo
      */
     private void doPay(String prePayInfo) {
-        PayWay way = mPayParams.getPayWay();
-        if (mPayParams.getPayWay() == null) {
-            throw new NullPointerException("请设置支付方式");
-        }
         PayContext pc = null;
-
+        PayWay way = mPayParams.getPayWay();
         EasyPay.PayCallBack callBack = new PayCallBack() {
             @Override
             public void onPayCallBack(int code) {
@@ -116,6 +112,10 @@ public final class EasyPay {
      * @return
      */
     public EasyPay requestPayInfo(OnPayInfoRequestListener onPayInfoRequestListener) {
+        if (mPayParams.getPayWay() == null) {
+            throw new NullPointerException("请设置支付方式");
+        }
+
         mOnPayInfoRequestListener = onPayInfoRequestListener;
         mOnPayInfoRequestListener.onPayInfoRequetStart();
 
