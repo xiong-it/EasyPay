@@ -154,6 +154,8 @@ public final class EasyPay {
      * @param code
      */
     private void sendPayResult(int code) {
+        if (mPayParams == null) return;
+
         switch (code) {
             case COMMON_PAY_OK:
                 mOnPayResultListener.onPaySuccess(mPayParams.getPayWay());
@@ -171,6 +173,7 @@ public final class EasyPay {
     }
 
     private void releaseMomery() {
+        if (mPayParams == null) return;
         Activity activity = mPayParams.getActivity();
         activity = null;
         mPayParams = null;
