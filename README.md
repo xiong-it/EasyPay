@@ -1,6 +1,6 @@
  EasyPay是什么
 ==========
-EasyPay旨在帮助Android开发者快速集成接入移动支付SDK，其中包括主流的**微信APP支付**，**支付宝APP支付**，银联支付（开发中）。  欢迎右上角star/fork，感谢!  
+EasyPay旨在帮助Android开发者快速集成接入移动支付SDK，其中包括主流的**微信APP支付**，**支付宝APP支付**，**银联支付**。  欢迎右上角star/fork，感谢!  
 
 
 ----------
@@ -113,7 +113,8 @@ EasyPay和其他第三方聚合支付的区别
  4. 复制`EasyPay/sample`下`wxapi`包到你的包路径下，假如你的包名:`com.app.payclient`，那么wxapi包应该放在payclient包下面  
  5. 按照`EasyPay/sample`的`AndroidMenifest.xml`文件修改你的清单文件  
  6. 按照`EasyPay/sample`的`proguard-rules.pro`修改你的混淆文件   
-   
+ 7. 拷贝`EasyPay/sample`的assets到你的assets  
+   
 **需要修改服务器请求路径和请求字段和返回的json解析**
 
 由于笔者并不知道你的服务器地址和请求路径及字段和返回json格式，所以你只需要动动小手**修改`EasyPay/library`中网络请求和解析**部分代码即可.   
@@ -231,6 +232,9 @@ EasyPay的回调errCode错误码列表
 6002|网络差导致支付失败
 6004|支付结果未知
 6005|支付失败，原因未知
+**银联errCode**|一般不会碰到
+-10|银联支付插件未安装  
+-11|银联支付插件需要升级，基本不会碰到  
 
   [1]: https://github.com/xiong-it/EasyPay
   [2]: http://blog.csdn.net/xiong_it
