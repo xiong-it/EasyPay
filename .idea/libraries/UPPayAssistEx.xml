@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="UPPayAssistEx">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/library/libs/UPPayAssistEx.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

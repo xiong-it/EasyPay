@@ -6,7 +6,8 @@ package io.github.xiong_it.easypay.enums;
 
 public enum PayWay {
     WechatPay(0),
-    ALiPay(1);
+    ALiPay(1),
+    UPPay(2);
 
     int payway;
     PayWay(int way) {

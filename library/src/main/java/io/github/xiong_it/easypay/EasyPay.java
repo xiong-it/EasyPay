@@ -11,6 +11,7 @@ import io.github.xiong_it.easypay.network.NetworkClientFactory;
 import io.github.xiong_it.easypay.network.NetworkClientInterf;
 import io.github.xiong_it.easypay.pay.paystrategy.ALiPayStrategy;
 import io.github.xiong_it.easypay.pay.paystrategy.PayContext;
+import io.github.xiong_it.easypay.pay.paystrategy.UPPayStrategy;
 import io.github.xiong_it.easypay.pay.paystrategy.WeChatPayStrategy;
 import io.github.xiong_it.easypay.util.NetworkUtils;
 
@@ -52,6 +53,10 @@ public final class EasyPay {
     public static final int ALI_PAY_NET_ERR = 6002;
     public static final int ALI_PAY_UNKNOW_ERR = 6004;
     public static final int ALI_PAY_OTHER_ERR = 6005;
+
+    // 银联结果码
+    public static final int UPPAY_PLUGIN_NOT_INSTALLED = -10;
+    public static final int UPPAy_PLUGIN_NEED_UPGRADE = -11;
 
     private EasyPay(PayParams params) {
         mPayParams = params;
@@ -97,6 +102,10 @@ public final class EasyPay {
 
             case ALiPay:
                 pc = new PayContext(new ALiPayStrategy(mPayParams, prePayInfo, callBack));
+                break;
+
+            case UPPay:
+                pc = new PayContext(new UPPayStrategy(mPayParams, prePayInfo, callBack));
                 break;
 
             default:
